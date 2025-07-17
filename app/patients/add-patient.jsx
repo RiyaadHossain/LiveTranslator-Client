@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   SafeAreaView,
   ScrollView,
@@ -10,16 +9,15 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Modal,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../styles/global";
 import BackButton from "../../components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import { languages,bloodTypes,genders } from "../../constants/dummy";
 import InputField from "../../components/pages/addPatient/InputField";
 import { router } from "expo-router";
+import SelectModal from "../../components/ui/SelectModal";
 
 const AddPatientScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -55,6 +53,7 @@ const AddPatientScreen = ({ navigation }) => {
     }));
   };
 
+  // eslint-disable-next-line no-unused-vars
   const validateForm = () => {
     const requiredFields = ["firstName", "lastName", "phone", "language"];
     const missingFields = requiredFields.filter(
@@ -114,59 +113,6 @@ const AddPatientScreen = ({ navigation }) => {
 
  
 
-  const SelectModal = ({
-    visible,
-    onClose,
-    title,
-    options,
-    onSelect,
-    selectedValue,
-  }) => (
-    <Modal
-      visible={visible}
-      transparent={true}
-      animationType="slide"
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>{title}</Text>
-            <TouchableOpacity onPress={onClose} style={styles.modalCloseButton}>
-              <Ionicons name="close" size={24} color="#666" />
-            </TouchableOpacity>
-          </View>
-          <ScrollView style={styles.modalContent}>
-            {options.map((option, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.modalOption,
-                  selectedValue === option && styles.selectedOption,
-                ]}
-                onPress={() => {
-                  onSelect(option);
-                  onClose();
-                }}
-              >
-                <Text
-                  style={[
-                    styles.modalOptionText,
-                    selectedValue === option && styles.selectedOptionText,
-                  ]}
-                >
-                  {option}
-                </Text>
-                {selectedValue === option && (
-                  <Ionicons name="checkmark" size={20} color="#667eea" />
-                )}
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-      </View>
-    </Modal>
-  );
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -521,55 +467,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
-  },
-  modalContainer: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: "80%",
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9ecef",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  modalCloseButton: {
-    padding: 5,
-  },
-  modalContent: {
-    maxHeight: 400,
-  },
-  modalOption: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f8f9fa",
-  },
-  selectedOption: {
-    backgroundColor: "#f0f4ff",
-  },
-  modalOptionText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  selectedOptionText: {
-    color: "#667eea",
-    fontWeight: "600",
-  },
+ 
 });
 
 export default AddPatientScreen;

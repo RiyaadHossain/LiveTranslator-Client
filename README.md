@@ -1,50 +1,120 @@
-# Welcome to your Expo app 👋
+# RealTime Translator
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application designed to facilitate real-time translation during medical consultations, bridging the communication gap between healthcare providers and patients who speak different languages.
 
-## Get started
+## Features
 
-1. Install dependencies
+- 🏥 **Real-time Translation**
+
+  - Instant voice-to-voice translation
+  - Support for multiple languages
+  - Emergency translation mode
+
+- 👨‍⚕️ **Doctor Features**
+
+  - Patient management
+  - Session history tracking
+  - Quick access to patient medical records
+  - Emergency consultation handling
+
+- 👥 **Patient Features**
+
+  - Easy appointment scheduling
+  - Medical history access
+  - Session history review
+  - Emergency translation access
+
+- 🔐 **Authentication & Security**
+  - Secure login/signup
+  - Role-based access control
+  - Data encryption
+  - HIPAA compliance
+
+## Technology Stack
+
+- **Frontend Framework**: React Native with Expo
+- **Navigation**: Expo Router
+- **UI Components**: Custom components with reusable design patterns
+- **Styling**: React Native StyleSheet with global styles
+- **Icons**: Expo Vector Icons
+
+## Project Structure
+
+```
+RealTime-Translator/
+├── app/                      # Main application screens
+│   ├── auth/                 # Authentication screens
+│   ├── doctor/              # Doctor-specific screens
+│   └── patient/             # Patient-specific screens
+├── components/              # Reusable components
+│   ├── auth/               # Auth-related components
+│   ├── form/               # Form components
+│   ├── homepage/           # Homepage components
+│   ├── patient/            # Patient-related components
+│   └── ui/                 # UI components
+├── constants/              # Constants and dummy data
+├── enums/                 # Enum definitions
+├── styles/               # Global styles
+├── utils/               # Utility functions
+└── assets/             # Images, fonts, etc.
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- npm or yarn
+- Expo CLI
+- iOS Simulator or Android Emulator
+
+### Installation
+
+1. Clone the repository:
 
    ```bash
+   git clone [repository-url]
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   cd RealTime-Translator
    npm install
    ```
 
-2. Start the app
+3. Start the development server:
 
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+4. Run on your preferred platform:
+   - Press `i` for iOS
+   - Press `a` for Android
+   - Press `w` for web
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Code Style
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Follow the established project structure
+- Use reusable components where possible
+- Utilize global styles from `styles/global.js`
+- Follow enumeration patterns for static values
+- Maintain consistent naming conventions
 
-## Get a fresh project
+## Contributing
 
-When you're ready, run:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-```bash
-npm run reset-project
-```
+## License
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Learn more
+## Contact
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Your Name - your.email@example.com
+Project Link: [https://github.com/yourusername/RealTime-Translator](https://github.com/yourusername/RealTime-Translator)

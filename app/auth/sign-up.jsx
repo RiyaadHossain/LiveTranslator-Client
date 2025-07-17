@@ -13,17 +13,21 @@ import {
   View,
 } from "react-native";
 import AuthHeader from "../../components/auth/AuthHeader";
-import InputField from "../../components/form/Input";
+import InputField from "../../components/pages/addPatient/InputField";
 import Button from "../../components/ui/Button";
 import GradientBackground from "../../components/ui/GradientBackground";
 import globalStyles from "../../styles/global";
+import { languages } from "@/constants/dummy";
+import SelectModal from "../../components/ui/SelectModal";
 
 const SignupScreen = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [language, setLanguage] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
 
   const handleSignup = () => {
     // Handle signup logic here
@@ -58,7 +62,7 @@ const SignupScreen = () => {
                     placeholder="Full Name"
                     value={fullName}
                     onChangeText={setFullName}
-                    iconName="person-outline"
+                    icon="person-outline"
                   />
 
                   <InputField
@@ -66,7 +70,15 @@ const SignupScreen = () => {
                     value={email}
                     onChangeText={setEmail}
                     keyboardType="email-address"
-                    iconName="mail-outline"
+                    icon="mail-outline"
+                  />
+
+                  <InputField
+                    placeholder="Preferred Language"
+                    value={language}
+                    icon="language-outline"
+                    editable={false}
+                    onPress={() => setShowLanguageModal(true)}
                   />
 
                   <InputField
@@ -74,7 +86,7 @@ const SignupScreen = () => {
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry={!showPassword}
-                    iconName="lock-closed-outline"
+                    icon="lock-closed-outline"
                     showPasswordToggle={true}
                     onTogglePassword={() => setShowPassword(!showPassword)}
                     showPassword={showPassword}
@@ -152,6 +164,16 @@ const SignupScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
+
+            {/* Language Selection Modal */}
+            <SelectModal
+              visible={showLanguageModal}
+              onClose={() => setShowLanguageModal(false)}
+              title="Select Language"
+              options={languages}
+              selectedValue={language}
+              onSelect={(value) => setLanguage(value)}
+            />
           </ScrollView>
         </KeyboardAvoidingView>
       </GradientBackground>
