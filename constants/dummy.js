@@ -1,0 +1,263 @@
+export const statInfo = [
+  { title: "Patients", value: 23 },
+  { title: "Sessions", value: 12 },
+  { title: "Active", value: 3 },
+  { title: "Completed", value: 8 },
+];
+// Mock patient data
+export const mockPatients = [
+  {
+    id: 1,
+    name: "Maria Rodriguez",
+    age: 35,
+    language: "Spanish",
+    lastVisit: "2024-01-15",
+    status: "Active",
+    phone: "+1 (555) 123-4567",
+    condition: "Diabetes",
+    isFavorite: true,
+  },
+  {
+    id: 2,
+    name: "Ahmed Hassan",
+    age: 42,
+    language: "Arabic",
+    lastVisit: "2024-01-12",
+    status: "Active",
+    phone: "+1 (555) 987-6543",
+    condition: "Hypertension",
+    isFavorite: false,
+  },
+  {
+    id: 3,
+    name: "Wei Chen",
+    age: 28,
+    language: "Chinese",
+    lastVisit: "2024-01-10",
+    status: "Inactive",
+    phone: "+1 (555) 456-7890",
+    condition: "Allergies",
+    isFavorite: true,
+  },
+  {
+    id: 4,
+    name: "Jean Pierre",
+    age: 55,
+    language: "French",
+    lastVisit: "2024-01-08",
+    status: "Active",
+    phone: "+1 (555) 321-0987",
+    condition: "Arthritis",
+    isFavorite: false,
+  },
+  {
+    id: 5,
+    name: "Rosa Silva",
+    age: 31,
+    language: "Portuguese",
+    lastVisit: "2024-01-05",
+    status: "Active",
+    phone: "+1 (555) 654-3210",
+    condition: "Migraine",
+    isFavorite: true,
+  },
+];
+
+export const todayStats = {
+  totalPatients: 12,
+  translationSessions: 8,
+  activeTranslations: 2,
+  completedSessions: 6,
+};
+
+export const quickActions = [
+  {
+    id: 1,
+    title: "Patient List",
+    subtitle: "View all patients",
+    icon: "people",
+    color: "#4CAF50",
+    route: "/patients/list",
+    badge: todayStats.totalPatients,
+  },
+  {
+    id: 2,
+    title: "Add Patient",
+    subtitle: "Register new patient",
+    icon: "person-add",
+    color: "#2196F3",
+    route: "/patients/add-patient",
+  },
+  {
+    id: 3,
+    title: "Start Translation",
+    subtitle: "Begin live session",
+    icon: "language",
+    color: "#FF9800",
+    route: "/patients/list",
+  },
+  {
+    id: 4,
+    title: "Translation History",
+    subtitle: "View past sessions",
+    icon: "time",
+    color: "#9C27B0",
+    route: "/translation/history",
+    badge: todayStats.translationSessions,
+  },
+];
+
+export const recentActivity = [
+  {
+    id: 1,
+    patient: "Maria Rodriguez",
+    language: "Spanish",
+    time: "2:30 PM",
+    duration: "15 min",
+    status: "completed",
+  },
+  {
+    id: 2,
+    patient: "Chen Wei",
+    language: "Mandarin",
+    time: "1:45 PM",
+    duration: "12 min",
+    status: "completed",
+  },
+  {
+    id: 3,
+    patient: "Ahmed Hassan",
+    language: "Arabic",
+    time: "11:20 AM",
+    duration: "8 min",
+    status: "completed",
+  },
+];
+
+export const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Italian",
+  "Portuguese",
+  "Chinese",
+  "Japanese",
+  "Korean",
+  "Arabic",
+  "Russian",
+  "Hindi",
+  "Dutch",
+  "Swedish",
+  "Norwegian",
+  "Danish",
+  "Finnish",
+  "Polish",
+];
+
+export const genders = ["Male", "Female", "Other", "Prefer not to say"];
+export const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
+// Mock data for translation sessions
+export const mockSessions = [
+  {
+    id: 1,
+    patient: {
+      name: "Maria Rodriguez",
+      age: 45,
+      language: "Spanish",
+      condition: "Hypertension",
+    },
+    date: "2024-01-15",
+    time: "14:30",
+    duration: "15 min",
+    status: "completed",
+    translationAccuracy: 98,
+    messageCount: 24,
+    sessionType: "consultation",
+    summary:
+      "Patient consultation regarding blood pressure medication adjustment and dietary recommendations.",
+    keyTopics: ["Blood pressure", "Medication", "Diet", "Exercise"],
+    emergencyLevel: "low",
+  },
+  {
+    id: 2,
+    patient: {
+      name: "Chen Wei",
+      age: 32,
+      language: "Mandarin",
+      condition: "Chest Pain",
+    },
+    date: "2024-01-15",
+    time: "13:45",
+    duration: "12 min",
+    status: "completed",
+    translationAccuracy: 95,
+    messageCount: 18,
+    sessionType: "emergency",
+    summary:
+      "Emergency consultation for chest pain symptoms. Patient was advised immediate examination.",
+    keyTopics: ["Chest pain", "Emergency", "Examination", "Symptoms"],
+    emergencyLevel: "high",
+  },
+  {
+    id: 3,
+    patient: {
+      name: "Ahmed Hassan",
+      age: 28,
+      language: "Arabic",
+      condition: "Routine Checkup",
+    },
+    date: "2024-01-15",
+    time: "11:20",
+    duration: "8 min",
+    status: "completed",
+    translationAccuracy: 97,
+    messageCount: 12,
+    sessionType: "routine",
+    summary:
+      "Routine health checkup with discussion about preventive care and lifestyle recommendations.",
+    keyTopics: ["Checkup", "Prevention", "Lifestyle", "Health"],
+    emergencyLevel: "low",
+  },
+  {
+    id: 4,
+    patient: {
+      name: "Sophie Martin",
+      age: 38,
+      language: "French",
+      condition: "Diabetes",
+    },
+    date: "2024-01-14",
+    time: "16:15",
+    duration: "20 min",
+    status: "completed",
+    translationAccuracy: 99,
+    messageCount: 31,
+    sessionType: "follow-up",
+    summary:
+      "Follow-up consultation for diabetes management and insulin adjustment.",
+    keyTopics: ["Diabetes", "Insulin", "Blood sugar", "Management"],
+    emergencyLevel: "medium",
+  },
+  {
+    id: 5,
+    patient: {
+      name: "Raj Patel",
+      age: 55,
+      language: "Hindi",
+      condition: "Back Pain",
+    },
+    date: "2024-01-14",
+    time: "10:30",
+    duration: "18 min",
+    status: "interrupted",
+    translationAccuracy: 92,
+    messageCount: 22,
+    sessionType: "consultation",
+    summary:
+      "Consultation interrupted due to technical issues. Patient rescheduled for next day.",
+    keyTopics: ["Back pain", "Physical therapy", "Pain management"],
+    emergencyLevel: "low",
+  },
+];
