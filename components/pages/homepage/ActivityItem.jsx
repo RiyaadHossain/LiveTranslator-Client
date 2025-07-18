@@ -2,15 +2,16 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, View } from "react-native-web";
 
-export default function ActivityItem({item}) {
+export default function ActivityItem({ item }) {
+  console.log({item})
   return (
     <View style={styles.activityItem}>
       <View style={styles.activityIcon}>
         <Ionicons name="language" size={16} color="#667eea" />
       </View>
       <View style={styles.activityContent}>
-        <Text style={styles.activityPatient}>{item.patient}</Text>
-        <Text style={styles.activityLanguage}>{item.language}</Text>
+        <Text style={styles.activityPatient}>{item.patient.firstName}</Text>
+        <Text style={styles.activityLanguage}>{item.patient.language}</Text>
       </View>
       <View style={styles.activityTime}>
         <Text style={styles.activityTimeText}>{item.time}</Text>

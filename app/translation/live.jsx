@@ -14,14 +14,38 @@ import ThreeBarLoader from "../../components/ui/ThreeBarLoader";
 import { formatTime } from "../../utils/format";
 import { USER_ROLES } from "../../enums/user";
 import BackButton from "../../components/ui/BackButton";
+import { router, useLocalSearchParams } from "expo-router";
+import { getPatient, getMe } from "../../utils/api";
 
-const TranslationScreen = ({ navigation }) => {
+const TranslationScreen = () => {
   const [isListening, setIsListening] = useState("");
   const [isTranslating, setIsTranslating] = useState("");
   const [currentSpeaker, setCurrentSpeaker] = useState(null); // 'doctor' or 'patient'
   const [sessionDuration, setSessionDuration] = useState(0);
   const [translationHistory, setTranslationHistory] = useState([]);
   const [isSessionActive, setIsSessionActive] = useState(false);
+  const [patient, setPatient] = useState(null);
+  const [user, setUser] = useState(null);
+
+  const { patientId } = useLocalSearchParams();
+
+  useEffect(() => {
+    const fetchPatientAndUser = async () => {
+      try {
+        if (patientId) {
+          const patientData = await getPatient(patientId);
+          setPatient(patientData);
+        }
+        const userData = await getMe();
+        setUser(userData);
+      } catch (err) {
+        console.log(err);
+        setPatient(null);
+        setUser(null);
+      }
+    };
+    fetchPatientAndUser();
+  }, [patientId]);
 
   // Timer for session duration
   useEffect(() => {
@@ -79,6 +103,8 @@ const TranslationScreen = ({ navigation }) => {
     setCurrentSpeaker(null);
     setSessionDuration(0);
     setTranslationHistory([]);
+
+    router.push("/");
   };
 
   const clearHistory = () => {
@@ -170,8 +196,17 @@ const TranslationScreen = ({ navigation }) => {
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>Live Translation</Text>
             <Text style={styles.headerSubtitle}>Doctor ↔ Patient</Text>
+            {patient && (
+              <Text style={{ color: "#fff", marginTop: 4 }}>
+                Patient: {patient.name}
+              </Text>
+            )}
+            {user && (
+              <Text style={{ color: "#fff", marginTop: 2 }}>
+                Your Language: {user.language}
+              </Text>
+            )}
           </View>
-
           <TouchableOpacity style={styles.settingsButton} activeOpacity={0.7}>
             <Ionicons name="settings-outline" size={24} color="#fff" />
           </TouchableOpacity>
@@ -250,8 +285,8 @@ const TranslationScreen = ({ navigation }) => {
             onPress={stopSession}
             activeOpacity={0.7}
           >
-            <Ionicons name="stop-outline" size={20} color="#f44336" />
-            <Text style={styles.controlButtonText}>Stop Session</Text>
+            <Ionicons name="power-outline" size={20} color="#f44336" />
+            <Text style={styles.controlButtonText}>End Session</Text>
           </TouchableOpacity>
         </View>
 

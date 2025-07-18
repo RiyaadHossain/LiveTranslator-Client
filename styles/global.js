@@ -98,7 +98,7 @@ const typography = {
 
 const form = {
   form: {
-    gap: 20,
+    // gap: 20,
   },
   inputContainer: {
     flexDirection: "row",
@@ -124,7 +124,7 @@ const form = {
   },
   forgotPassword: {
     alignSelf: "flex-end",
-    marginTop: -10,
+    marginTop: 10,
   },
 };
 

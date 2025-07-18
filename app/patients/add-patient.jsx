@@ -14,8 +14,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import globalStyles from "../../styles/global";
 import BackButton from "../../components/ui/BackButton";
 import Button from "@/components/ui/Button";
-import { languages,bloodTypes,genders } from "../../constants/dummy";
-import InputField from "../../components/pages/addPatient/InputField";
+import { addPatient } from "../../utils/api";
+import { languages, bloodTypes, genders } from "../../constants/dummy";
+import InputField from "../../components/form/InputField";
 import { router } from "expo-router";
 import SelectModal from "../../components/ui/SelectModal";
 
@@ -44,7 +45,6 @@ const AddPatientScreen = ({ navigation }) => {
   const [showGenderModal, setShowGenderModal] = useState(false);
   const [showBloodTypeModal, setShowBloodTypeModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
 
   const updateFormData = (field, value) => {
     setFormData((prev) => ({
@@ -89,11 +89,12 @@ const AddPatientScreen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    // if (!validateForm()) return;
-
+    // Uncomment to enable validation
+    // if (!validateForm()) { setIsSubmitting(false); return; }
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await addPatient(formData);
+      console.log(response);
 
       Alert.alert("Success", "Patient added successfully!", [
         {
@@ -101,18 +102,14 @@ const AddPatientScreen = ({ navigation }) => {
           onPress: () => navigation.goBack(),
         },
       ]);
-      
       router.push("/patients/list");
     } catch (error) {
       Alert.alert("Error", "Failed to add patient. Please try again.");
-      console.log(error)
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
   };
-
- 
-
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -447,7 +444,7 @@ const styles = StyleSheet.create({
   formContent: {
     gap: 20,
   },
- 
+
   rowInputs: {
     flexDirection: "row",
     gap: 15,
@@ -467,7 +464,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
- 
 });
 
 export default AddPatientScreen;

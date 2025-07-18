@@ -45,7 +45,7 @@ export default function SessionDetailModal({
               <View style={styles.modalInfoRow}>
                 <Text style={styles.modalLabel}>Name:</Text>
                 <Text style={styles.modalValue}>
-                  {selectedSession.patient.name}
+                  {selectedSession.patient.firstName}
                 </Text>
               </View>
               <View style={styles.modalInfoRow}>

@@ -2,6 +2,7 @@ import GradientBackground from "@/components/ui/GradientBackground";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { getToken } from "../utils/token";
 import {
   SafeAreaView,
   StatusBar,
@@ -13,37 +14,96 @@ import {
 import ActivityItem from "../components/pages/homepage/ActivityItem";
 import QuickActionCard from "../components/pages/homepage/QuickActionCard";
 import StatCard from "../components/pages/homepage/StatCard";
-import { quickActions, recentActivity, statInfo } from "../constants/dummy";
+import { quickActions } from "../constants/dummy";
+import { getStats, getSessions, getMe } from "../utils/api";
 import globalStyles from "../styles/global";
 import { formatDateToTime, getGreeting } from "../utils/format";
 import { getStatIconAndColor } from "../utils/statMap";
 import EmptyState from "../components/pages/patientList/EmptyState";
 
 const HomeScreen = () => {
-  const doctorName = "Dr. Smith";
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [user, setUser] = useState(null);
+  const [statInfo, setStatInfo] = useState([]);
+  const [sessions, setSessions] = useState([]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await getToken();
+      if (!token) {
+        router.replace("/auth/log-in");
+        setIsAuthenticated(false);
+        return;
+      }
+
+      setIsAuthenticated(true);
+      try {
+        const userData = await getMe();
+        setUser(userData);
+      } catch (err) {
+        setUser(null);
+        console.log(err);
+      }
+
+      try {
+        const stats = await getStats();
+        setStatInfo([
+          { title: "Patients", value: stats.totalPatients },
+          { title: "Sessions", value: stats.translationSessions },
+          { title: "Active", value: stats.activePatients },
+          { title: "Completed", value: stats.completedSessions },
+        ]);
+      } catch (err) {
+        console.log("homepage", err);
+        setStatInfo([]);
+      }
+      try {
+        const sessionList = await getSessions();
+        setSessions(sessionList);
+      } catch (err) {
+        console.log("homepage", err);
+        setSessions([]);
+      }
+    };
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
+
+  if (isAuthenticated === false) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#667eea" />
-
       <GradientBackground>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Text style={styles.greeting}>{getGreeting(currentTime)}</Text>
-            <Text style={styles.doctorName}>{doctorName}</Text>
+            <Text style={styles.doctorName}>Dr {user ? user.name : ""}</Text>
             <Text style={styles.currentTime}>
               {formatDateToTime(currentTime)}
             </Text>
+            {user && (
+              <View style={{ marginTop: 8 }}>
+                <Text style={{ fontSize: 14, color: "#667eea" }}>
+                  Email: {user.email}
+                </Text>
+                {user.language && (
+                  <Text style={{ fontSize: 14, color: "#667eea" }}>
+                    Language: {user.language}
+                  </Text>
+                )}
+              </View>
+            )}
           </View>
           <TouchableOpacity
             style={styles.profileButton}
@@ -55,8 +115,7 @@ const HomeScreen = () => {
             </View>
           </TouchableOpacity>
         </View>
-
-        {/* Today's Stats */}
+        {/* ...existing code... */}
         <View style={styles.statsContainer}>
           <Text style={styles.sectionTitle}>Today&apos;s Overview</Text>
           <View style={styles.statsGrid}>
@@ -75,7 +134,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Quick Actions */}
         <View style={styles.quickActionsContainer}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           <View style={styles.quickActionsGrid}>
@@ -84,8 +142,7 @@ const HomeScreen = () => {
             ))}
           </View>
         </View>
-
-        {/* Recent Activity */}
+      
         <View style={styles.recentActivityContainer}>
           <View style={styles.recentActivityHeader}>
             <Text style={styles.sectionTitle2}>Recent Activity</Text>
@@ -96,10 +153,9 @@ const HomeScreen = () => {
               <Text style={globalStyles.linkText}>View All</Text>
             </TouchableOpacity>
           </View>
-
-          {recentActivity.length ? (
+          {sessions.length ? (
             <View style={styles.activityList}>
-              {recentActivity.map((item) => (
+              {sessions.map((item) => (
                 <ActivityItem key={item.id} item={item} />
               ))}
             </View>

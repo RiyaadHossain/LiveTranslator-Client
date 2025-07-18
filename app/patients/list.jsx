@@ -11,10 +11,11 @@ import {
   FlatList,
 } from "react-native";
 import GradientBackground from "../../components/ui/GradientBackground";
+import { fetchPatients } from "../../utils/api";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../styles/global";
 import { router } from "expo-router";
-import { mockPatients } from "../../constants/dummy";
+// import { mockPatients } from "../../constants/dummy";
 import BackButton from "../../components/ui/BackButton";
 import PatientCard from "../../components/pages/patientList/PatientCard";
 import EmptyState from "../../components/pages/patientList/EmptyState";
@@ -27,13 +28,21 @@ const PatientListScreen = () => {
   const [selectedFilter, setSelectedFilter] = useState("all"); // all, recent, favorites
 
   useEffect(() => {
-    // Simulate loading patients
-    setIsLoading(true);
-    setTimeout(() => {
-      setPatients(mockPatients);
-      setFilteredPatients(mockPatients);
-      setIsLoading(false);
-    }, 1000);
+    const getPatients = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchPatients();
+        console.log(data)
+        setPatients(data);
+        setFilteredPatients(data);
+      } catch (_error) {
+        setPatients([]);
+        setFilteredPatients([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getPatients();
   }, []);
 
   useEffect(() => {
@@ -191,7 +200,7 @@ const PatientListScreen = () => {
               renderItem={({ item }) => (
                 <PatientCard patient={item} setPatients={setPatients} />
               )}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id.toString()}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.listContent}
             />

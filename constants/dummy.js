@@ -1,5 +1,5 @@
 export const statInfo = [
-  { title: "Patients", value: 23 },
+  { title: "Patients", value: 2 },
   { title: "Sessions", value: 12 },
   { title: "Active", value: 3 },
   { title: "Completed", value: 8 },
@@ -136,6 +136,7 @@ export const recentActivity = [
 
 export const languages = [
   "English",
+  "Bangla",
   "Spanish",
   "French",
   "German",

@@ -1,4 +1,4 @@
-import InputField from "@/components/form/Input";
+import InputField from "@/components/form/InputField";
 import Button from "@/components/ui/Button";
 import GradientBackground from "@/components/ui/GradientBackground";
 import globalStyles from "@/styles/global";
@@ -16,15 +16,27 @@ import {
   View,
 } from "react-native";
 import AuthHeader from "../../components/auth/AuthHeader";
+import { login } from "../../utils/api";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    // Handle login logic here
-    console.log("Login", { email, password });
+  const handleLogin = async () => {
+    try {
+      const data = await login({ email, password });
+      router.push("/");
+      if (data.success) {
+        // Token is already stored by login API
+        console.log("Login successful:", data);
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Network error");
+      console.error(error);
+    }
   };
 
   const navigateToSignup = () => router.push("auth/sign-up");
@@ -74,9 +86,7 @@ const LoginScreen = () => {
                   />
 
                   <TouchableOpacity style={globalStyles.forgotPassword}>
-                    <Text style={globalStyles.linkText}>
-                      Forgot Password?
-                    </Text>
+                    <Text style={globalStyles.linkText}>Forgot Password?</Text>
                   </TouchableOpacity>
 
                   <Button
@@ -130,5 +140,4 @@ const LoginScreen = () => {
   );
 };
 
-// ...existing code...
 export default LoginScreen;

@@ -1,3 +1,4 @@
+import { languages } from "@/constants/dummy";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -13,12 +14,12 @@ import {
   View,
 } from "react-native";
 import AuthHeader from "../../components/auth/AuthHeader";
-import InputField from "../../components/pages/addPatient/InputField";
+import InputField from "../../components/form/InputField";
 import Button from "../../components/ui/Button";
+import { register } from "../../utils/api";
 import GradientBackground from "../../components/ui/GradientBackground";
-import globalStyles from "../../styles/global";
-import { languages } from "@/constants/dummy";
 import SelectModal from "../../components/ui/SelectModal";
+import globalStyles from "../../styles/global";
 
 const SignupScreen = () => {
   const [fullName, setFullName] = useState("");
@@ -29,9 +30,20 @@ const SignupScreen = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
 
-  const handleSignup = () => {
-    // Handle signup logic here
-    console.log("Signup", { fullName, email, password });
+  const handleSignup = async () => {
+    try {
+      const data = await register({ fullName, email, password, language });
+      router.push("/auth/log-in");
+
+      if (data.token) {
+        console.log("Signup successful:", data);
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (error) {
+      alert("Network error");
+      console.error(error);
+    }
   };
 
   return (
@@ -181,10 +193,9 @@ const SignupScreen = () => {
   );
 };
 
-// ...existing code...
 const styles = StyleSheet.create({
   termsContainer: {
-    marginTop: -10,
+    marginTop: 10,
   },
   checkbox: {
     flexDirection: "row",

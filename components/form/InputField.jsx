@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Text, TextInput, View } from "react-native-web";
-import globalStyles from "../../../styles/global";
+import globalStyles from "../../styles/global";
 
 export default function InputField({
   label,

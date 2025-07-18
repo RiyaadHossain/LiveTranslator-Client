@@ -9,7 +9,7 @@ export default function PatientCard({ patient, setPatients }) {
   const toggleFavorite = (patientId) => {
     setPatients((prevPatients) =>
       prevPatients.map((patient) =>
-        patient.id === patientId
+        patient._id === patientId
           ? { ...patient, isFavorite: !patient.isFavorite }
           : patient
       )
@@ -30,24 +30,24 @@ export default function PatientCard({ patient, setPatients }) {
         <View style={styles.patientInfo}>
           <View style={styles.patientAvatar}>
             <Text style={styles.patientInitials}>
-              {patient.name
+              {patient.firstName
                 .split(" ")
                 .map((n) => n[0])
                 .join("")}
             </Text>
           </View>
           <View style={styles.patientDetails}>
-            <Text style={styles.patientName}>{patient.name}</Text>
+            <Text style={styles.patientName}>{`${patient.firstName} ${patient.lastName}`}</Text>
             <Text style={styles.patientMeta}>
               {patient.age} years • {patient.language}
             </Text>
-            <Text style={styles.patientCondition}>{patient.condition}</Text>
+            <Text style={styles.patientCondition}>{patient.medicalCondition}</Text>
           </View>
         </View>
         <View style={styles.patientActions}>
           <TouchableOpacity
             style={styles.favoriteButton}
-            onPress={() => toggleFavorite(patient.id)}
+            onPress={() => toggleFavorite(patient._id)}
             activeOpacity={0.7}
           >
             <Ionicons
@@ -72,12 +72,12 @@ export default function PatientCard({ patient, setPatients }) {
         <View style={styles.lastVisitInfo}>
           <Ionicons name="time-outline" size={14} color="#666" />
           <Text style={styles.lastVisitText}>
-            Last visit: {new Date(patient.lastVisit).toLocaleDateString()}
+            Last visit: {new Date(patient.createdAt).toLocaleDateString()}
           </Text>
         </View>
         <TouchableOpacity
           style={styles.translateButton}
-          onPress={() => router.push("/translation/live", { patient })}
+          onPress={() => router.push({pathname: "translation/live", params: { patientId: patient._id } })}
           activeOpacity={0.7}
         >
           <LinearGradient

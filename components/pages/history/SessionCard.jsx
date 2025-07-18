@@ -48,7 +48,7 @@ export default function SessionCard({
               {session.sessionType.toUpperCase()}
             </Text>
           </View>
-          <Text style={styles.patientName}>{session.patient.name}</Text>
+          <Text style={styles.patientName}>{session.patient.firstName}</Text>
           <Text style={styles.patientDetails}>
             {session.patient.age} years • {session.patient.language}
           </Text>
@@ -60,7 +60,7 @@ export default function SessionCard({
       </View>
 
       <View style={styles.sessionMiddle}>
-        <Text style={styles.sessionCondition}>{session.patient.condition}</Text>
+        <Text style={styles.sessionCondition}>{session.patient.medicalCondition}</Text>
         <View style={styles.sessionStats}>
           <View style={styles.statItem}>
             <Ionicons name="time" size={12} color="#666" />

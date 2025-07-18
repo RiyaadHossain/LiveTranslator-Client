@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import globalStyles from "../../styles/global";
 import BackButton from "../../components/ui/BackButton";
-import { mockSessions } from "../../constants/dummy";
+import { getSessions } from "../../utils/api";
 import SessionCard from "../../components/pages/history/SessionCard";
 import SessionDetailModal from "../../components/pages/history/SessionDetailModal";
 import FilterButtonUI from "../../components/pages/history/FilterButtonUI";
@@ -29,17 +29,26 @@ const TranslationHistoryScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setSessions(mockSessions);
-      setFilteredSessions(mockSessions);
-      setIsLoading(false);
-    }, 800);
+    const fetchSessionList = async () => {
+      setIsLoading(true);
+      try {
+        const sessionList = await getSessions();
+        setSessions(sessionList);
+        setFilteredSessions(sessionList);
+      } catch (err) {
+        console.log("Error fetching sessions:", err);
+        setSessions([]);
+        setFilteredSessions([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchSessionList();
   }, []);
 
   useEffect(() => {
     filterSessions();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedFilter, sessions]);
 
   const filterSessions = () => {
@@ -178,7 +187,7 @@ const TranslationHistoryScreen = () => {
                   session={item}
                 />
               )}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id.toString()}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.listContent}
             />
