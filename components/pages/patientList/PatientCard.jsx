@@ -2,8 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Text, View } from "react-native-web";
+import {TouchableOpacity, Text, View } from "react-native";
 
 export default function PatientCard({ patient, setPatients }) {
   const toggleFavorite = (patientId) => {
@@ -16,9 +15,7 @@ export default function PatientCard({ patient, setPatients }) {
     );
   };
 
-  const viewPatientDetails = (patient) => {
-    
-  };
+  const viewPatientDetails = (patient) => {};
 
   return (
     <TouchableOpacity
@@ -37,11 +34,15 @@ export default function PatientCard({ patient, setPatients }) {
             </Text>
           </View>
           <View style={styles.patientDetails}>
-            <Text style={styles.patientName}>{`${patient.firstName} ${patient.lastName}`}</Text>
+            <Text
+              style={styles.patientName}
+            >{`${patient.firstName} ${patient.lastName}`}</Text>
             <Text style={styles.patientMeta}>
               {patient.age} years • {patient.language}
             </Text>
-            <Text style={styles.patientCondition}>{patient.medicalCondition}</Text>
+            <Text style={styles.patientCondition}>
+              {patient.medicalCondition}
+            </Text>
           </View>
         </View>
         <View style={styles.patientActions}>
@@ -77,7 +78,12 @@ export default function PatientCard({ patient, setPatients }) {
         </View>
         <TouchableOpacity
           style={styles.translateButton}
-          onPress={() => router.push({pathname: "translation/live", params: { patientId: patient._id } })}
+          onPress={() =>
+            router.push({
+              pathname: "translation/live",
+              params: { patientId: patient._id },
+            })
+          }
           activeOpacity={0.7}
         >
           <LinearGradient

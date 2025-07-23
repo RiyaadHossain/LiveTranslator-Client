@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { View } from "react-native-web";
+import { View } from "react-native";
 import globalStyles from "../../styles/global";
 
 export default function Logo() {

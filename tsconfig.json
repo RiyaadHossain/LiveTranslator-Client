@@ -11,6 +11,8 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
 , "app/auth/log-in.jsx", "app/auth/sign-up.jsx", "app/index.jsx"  ]

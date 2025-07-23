@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { TouchableOpacity } from "react-native";
-import { Text, View } from "react-native-web";
+import { Text, TouchableOpacity, View } from "react-native";
 
 export default function QuickActionCard({ item }) {
   return (

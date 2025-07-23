@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Modal, ScrollView, Text, View } from "react-native-web";
+import { Modal, ScrollView, Text, View } from "react-native";
 
 export default function SelectModal({
   visible,

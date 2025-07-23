@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Text, View } from "react-native-web";
+import {TouchableOpacity, Text, View } from "react-native";
 import {
   getEmergencyColor,
   getSessionTypeIcon,
@@ -60,7 +59,9 @@ export default function SessionCard({
       </View>
 
       <View style={styles.sessionMiddle}>
-        <Text style={styles.sessionCondition}>{session.patient.medicalCondition}</Text>
+        <Text style={styles.sessionCondition}>
+          {session.patient.medicalCondition}
+        </Text>
         <View style={styles.sessionStats}>
           <View style={styles.statItem}>
             <Ionicons name="time" size={12} color="#666" />

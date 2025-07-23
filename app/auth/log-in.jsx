@@ -29,12 +29,11 @@ const LoginScreen = () => {
       router.push("/");
       if (data.success) {
         // Token is already stored by login API
-        console.log("Login successful:", data);
       } else {
         alert(data.message || "Login failed");
       }
     } catch (error) {
-      alert("Network error");
+      alert("got error");
       console.error(error);
     }
   };

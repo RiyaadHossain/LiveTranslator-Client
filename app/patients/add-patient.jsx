@@ -20,7 +20,7 @@ import InputField from "../../components/form/InputField";
 import { router } from "expo-router";
 import SelectModal from "../../components/ui/SelectModal";
 
-const AddPatientScreen = ({ navigation }) => {
+const AddPatientScreen = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -89,8 +89,7 @@ const AddPatientScreen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    // Uncomment to enable validation
-    // if (!validateForm()) { setIsSubmitting(false); return; }
+    console.log("adding patient");
 
     try {
       const response = await addPatient(formData);
@@ -99,7 +98,7 @@ const AddPatientScreen = ({ navigation }) => {
       Alert.alert("Success", "Patient added successfully!", [
         {
           text: "OK",
-          onPress: () => navigation.goBack(),
+          onPress: () => router.back(),
         },
       ]);
       router.push("/patients/list");

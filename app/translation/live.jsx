@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import * as Speech from "expo-speech";
 import {
   View,
   Text,
@@ -7,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,7 +17,19 @@ import { formatTime } from "../../utils/format";
 import { USER_ROLES } from "../../enums/user";
 import BackButton from "../../components/ui/BackButton";
 import { router, useLocalSearchParams } from "expo-router";
-import { getPatient, getMe } from "../../utils/api";
+import {
+  getPatient,
+  getMe,
+  uploadAudioFile,
+  saveSession,
+} from "../../utils/api";
+
+import {
+  useAudioRecorder,
+  AudioModule,
+  RecordingPresets,
+  setAudioModeAsync,
+} from "expo-audio";
 
 const TranslationScreen = () => {
   const [isListening, setIsListening] = useState("");
@@ -26,6 +40,72 @@ const TranslationScreen = () => {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [patient, setPatient] = useState(null);
   const [user, setUser] = useState(null);
+
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  // const recorderState = useAudioRecorderState(audioRecorder);
+
+  const record = async () => {
+    await audioRecorder.prepareToRecordAsync();
+    audioRecorder.record();
+  };
+
+  const stopRecording = async () => {
+    // The recording will be available on `audioRecorder.uri`.
+    try {
+      await audioRecorder.stop();
+
+      let sourceLan = user?.language;
+      let destinationLan = patient?.language;
+
+      if (isPatientActive) {
+        sourceLan = patient?.language;
+        destinationLan = user?.language;
+      }
+
+      const res = await uploadAudioFile({
+        audioUri: audioRecorder.uri,
+        destinationLan,
+        sourceLan,
+      });
+
+      console.log(res.translated);
+
+      const translateData = {
+        id: Date.now(),
+        speaker: currentSpeaker,
+        originalText: res.original,
+        translatedText: res.translated,
+        timestamp: new Date().toLocaleTimeString(),
+        language: `${sourceLan} ➡️ ${destinationLan}`,
+      };
+
+      setTranslationHistory((prev) => [translateData, ...prev]);
+      setIsTranslating("");
+
+      // Play the translated text using TTS
+      if (res && res.translated) {
+        Speech.speak(res.translated, { language: destinationLan });
+      }
+    } catch (error) {
+      console.log(error);
+      setIsTranslating("");
+      Speech.speak("Sorry something went wrong. Try Again", { language: "en" });
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const status = await AudioModule.requestRecordingPermissionsAsync();
+      if (!status.granted) {
+        Alert.alert("Permission to access microphone was denied");
+      }
+
+      setAudioModeAsync({
+        playsInSilentMode: true,
+        allowsRecording: true,
+      });
+    })();
+  }, []);
 
   const { patientId } = useLocalSearchParams();
 
@@ -47,6 +127,8 @@ const TranslationScreen = () => {
     fetchPatientAndUser();
   }, [patientId]);
 
+  // console.log({ user, patient });
+
   // Timer for session duration
   useEffect(() => {
     let interval;
@@ -63,30 +145,12 @@ const TranslationScreen = () => {
       setIsListening("");
       setIsTranslating(speaker);
       setCurrentSpeaker(null);
-
-      // Simulate translation process
-      setTimeout(() => {
-        const mockTranslation = {
-          id: Date.now(),
-          speaker,
-          originalText:
-            speaker === "doctor"
-              ? "How are you feeling today?"
-              : "I have a headache",
-          translatedText:
-            speaker === "doctor"
-              ? "¿Cómo te sientes hoy?"
-              : "Tengo dolor de cabeza",
-          timestamp: new Date().toLocaleTimeString(),
-          language: speaker === "doctor" ? "EN → ES" : "ES → EN",
-        };
-
-        setTranslationHistory((prev) => [mockTranslation, ...prev]);
-        setIsTranslating("");
-      }, 3000);
+      stopRecording();
 
       return;
     }
+
+    record();
 
     setCurrentSpeaker(speaker);
     setIsListening(speaker);
@@ -97,12 +161,18 @@ const TranslationScreen = () => {
     }
   };
 
-  const stopSession = () => {
+  const endSession = async () => {
     setIsSessionActive(false);
     setIsListening(false);
     setCurrentSpeaker(null);
-    setSessionDuration(0);
+
+    await saveSession({
+      patient: patientId,
+      duration: sessionDuration,
+      translationHistory,
+    });
     setTranslationHistory([]);
+    setSessionDuration(0);
 
     router.push("/");
   };
@@ -126,7 +196,7 @@ const TranslationScreen = () => {
         isListening && currentSpeaker === speaker && styles.activeButton,
       ]}
       onPress={onPress}
-      disabled={isDisabled}
+      disabled={!!isDisabled}
       activeOpacity={0.8}
     >
       <LinearGradient
@@ -195,15 +265,10 @@ const TranslationScreen = () => {
           <BackButton />
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>Live Translation</Text>
-            <Text style={styles.headerSubtitle}>Doctor ↔ Patient</Text>
+            <Text style={styles.headerSubtitle}>Doctor ↔️ Patient</Text>
             {patient && (
               <Text style={{ color: "#fff", marginTop: 4 }}>
-                Patient: {patient.name}
-              </Text>
-            )}
-            {user && (
-              <Text style={{ color: "#fff", marginTop: 2 }}>
-                Your Language: {user.language}
+                Patient: {patient.firstName} {patient.lastName}
               </Text>
             )}
           </View>
@@ -282,7 +347,7 @@ const TranslationScreen = () => {
 
           <TouchableOpacity
             style={[styles.controlButton, styles.stopButton]}
-            onPress={stopSession}
+            onPress={endSession}
             activeOpacity={0.7}
           >
             <Ionicons name="power-outline" size={20} color="#f44336" />

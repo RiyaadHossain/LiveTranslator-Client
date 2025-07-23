@@ -1,16 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native-web";
+import { Text, View } from "react-native";
 
-export default function EmptyState({searchQuery, text, subtext1, subtext2, iconName}) {
+export default function EmptyState({
+  searchQuery,
+  text,
+  subtext1,
+  subtext2,
+  iconName,
+}) {
   return (
     <View style={styles.emptyState}>
       <Ionicons name={iconName} size={64} color="#ccc" />
       <Text style={styles.emptyStateText}>{text}</Text>
       <Text style={styles.emptyStateSubtext}>
-        {searchQuery
-          ? subtext1
-          : subtext2}
+        {searchQuery ? subtext1 : subtext2}
       </Text>
     </View>
   );

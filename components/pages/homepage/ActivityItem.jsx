@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native-web";
+import { Text, View } from "react-native";
 
 export default function ActivityItem({ item }) {
-  console.log({item})
+
   return (
     <View style={styles.activityItem}>
       <View style={styles.activityIcon}>

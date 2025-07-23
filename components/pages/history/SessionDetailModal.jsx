@@ -1,8 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Modal, ScrollView, Text, View } from "react-native-web";
+import {TouchableOpacity, Modal, ScrollView, Text, View } from "react-native";
 import { getEmergencyColor, getStatusColor } from "../../../utils/icon-color";
 
 export default function SessionDetailModal({

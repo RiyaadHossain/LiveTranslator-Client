@@ -1,6 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { ScrollView, Text, View } from "react-native-web";
+import {TouchableOpacity, ScrollView, Text, View } from "react-native";
 
 export default function FilterButtonUI({
   sessions,

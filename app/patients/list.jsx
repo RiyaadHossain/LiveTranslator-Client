@@ -32,7 +32,6 @@ const PatientListScreen = () => {
       setIsLoading(true);
       try {
         const data = await fetchPatients();
-        console.log(data)
         setPatients(data);
         setFilteredPatients(data);
       } catch (_error) {

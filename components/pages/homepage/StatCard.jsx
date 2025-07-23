@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native-web";
+import { Text, View } from "react-native";
 
 export default function StatCard({ title, value, icon, color }) {
   return (

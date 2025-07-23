@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Text, TextInput, View } from "react-native-web";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import globalStyles from "../../styles/global";
 
 export default function InputField({
